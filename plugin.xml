@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="org.apache.cordova.cardflight"
+    version="0.1.0">
+    <name>Card Flight</name>
+    <description>Cordova Card Flight Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,creditcard,cc</keywords>
+    <repo></repo>
+
+    <js-module src="www/cardFlight.js" name="cardFlight">
+        <clobbers target="cardFlight" />
+    </js-module>
+
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="CDVCardFlight">
+                <param name="ios-package" value="CDVCardFlight"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/CDVCardFlight.h" />
+        <header-file src="src/ios/CardFlight.h" />
+        <source-file src="src/ios/CDVCardFlight.m" />
+        <framework src="AVFoundation.framework" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="MediaPlayer.framework" />
+        <source-file src="src/ios/libCardFlightLibrary.a" framework="true" />
+    </platform>
+</plugin>
