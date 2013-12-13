@@ -65,7 +65,7 @@
 //        [_nameTextField setText:card.name];
 //        [_customView.cardNumber customFieldText:card.encryptedCardNumber];
 //        [_customView.expirationDate customFieldText:[NSString stringWithFormat:@"%i/%i", card.expirationMonth, card.expirationYear]];
-        NSLog(@"IN RESPONSE");
+        NSLog(@"IN RESPONSE %@", _card.name);
     }
 }
 

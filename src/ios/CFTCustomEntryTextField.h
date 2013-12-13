@@ -19,41 +19,12 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol CustomEntryTextFieldDelegate <NSObject>
-
-/**
- * Protocol methods are implemented privately to provide
- * access to appearance of the manual entry textfields.
- */
-
-@required
-- (void)textFieldFrame:(CGRect)newFrame;
-
-@optional
-- (void)textFieldText:(NSString *)newText;
-- (void)textFieldTag:(NSInteger)newTag;
-- (void)textFieldBackgroundImage:(UIImage *)newBackgroundImage;
-- (void)textFieldFont:(UIFont *)newFont;
-- (void)textFieldTextColor:(UIColor *)newColor;
-- (void)textFieldPlaceholderText:(NSString *)newText;
-- (void)textFieldAttributedPlaceholder:(NSAttributedString *)newAttributedPlaceholder;
-- (void)textFieldTextAlignment:(NSTextAlignment)newAlignment;
-- (void)textFieldBorderStyle:(UITextBorderStyle)newBorder;
-- (void)textFieldKeyboardStyle:(UIKeyboardType)newKeyboard;
-- (void)textFieldKeyboardAppearance:(UIKeyboardAppearance)newKeyboardAppearance;
-- (void)textFieldReturnKeyType:(UIReturnKeyType)newReturnKeyType;
-- (void)textFieldResignFirstResponder;
-
-@end
-
 @interface CFTCustomEntryTextField : UIView
-
-@property (nonatomic, weak) id <CustomEntryTextFieldDelegate> delegate;
 
 /**
  * The following public methods allow customization of the manual
  * entry textfields while preventing direct access to the contents.
- * You can set the text but cannot read it.
+ * You can set values but cannot read them.
  * Currently, auto layout is not supported.
  */
 

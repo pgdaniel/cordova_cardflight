@@ -3,6 +3,7 @@
 #import "CardFlight.h"
 #import "CFTReader.h"
 #import "CFTCard.h"
+#import "CFTCharge.h"
 
 @interface CDVCardFlight : CDVPlugin <readerDelegate>
 {}

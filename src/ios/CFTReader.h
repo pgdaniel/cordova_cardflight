@@ -22,10 +22,43 @@
 
 /**
  * Required protocol method that gets called when the hardware
- * reader has received a complete response. Returns a CFTCard object
+ * reader has received a complete swipe. Returns a CFTCard object
  * with success and a NSError on failure.
  */
 - (void)readerResponse:(CFTCard *)card withError:(NSError *)error;
+
+@optional
+
+/**
+ * Optional protocol method that gets called after the hardware
+ * reader is physically attached.
+ */
+- (void)readerIsAttached;
+
+/**
+ * Optional protocol method that gets called after a hardware
+ * reader begins the connection process.
+ */
+- (void)readerIsConnecting;
+
+/**
+ * Optional protocol method that gets called after an attempt is made
+ * to connect with the hardware reader. If isConnected is FALSE then
+ * the NSError object will contain the description.
+ */
+- (void)readerIsConnected:(BOOL)isConnected withError:(NSError *)error;
+
+/**
+ * Optional protocol method that gets called after the hardware reader
+ * is disconnected and physically detached.
+ */
+- (void)readerIsDisconnected;
+
+/**
+ * Optional protocol method that gets called after the serial number
+ * of the hardware reader has been retrieved.
+ */
+- (void)readerSerialNumber:(NSString *)serialNumber;
 
 @end
 
@@ -47,13 +80,20 @@
 - (void)beginSwipeWithMessage:(NSString *)message;
 
 /**
- * Manually attempt to the connection process with the hardware reader.
+ * Manually attempt the connection process with the hardware reader.
  */
 - (void)connect;
 
 /**
- * Manueally attempt to the disconnect process with the hardware reader.
+ * Manually attempt the disconnect process with the hardware reader.
  */
 - (void)disconnect;
+
+/**
+ * Communicate with the hardware reader and retrieve the serial number.
+ * The hardware reader must not be performing any other functions.
+ * Returns YES if command is successfully started, NO otherwise.
+ */
+- (BOOL)retrieveSerialNumber;
 
 @end

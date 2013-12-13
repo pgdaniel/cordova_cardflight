@@ -22,6 +22,11 @@
 + (CardFlight *)sharedInstance;
 
 /**
+ * Convenience method to return the current version number of the SDK
+ */
+- (NSString *)SDKVersion;
+
+/**
  * Convenience method to return the current API token
  */
 - (NSString *)getApiToken;
@@ -33,7 +38,7 @@
 
 /**
  * Sets the API account token for the entire session. This only
- * needs to be called once, most like in applicationDidFinishLaunching
+ * needs to be called once, most likely in applicationDidFinishLaunching
  */
 - (void)setApiToken:(NSString *)cardFlightApiToken
        accountToken:(NSString *)cardFlightAccountToken;

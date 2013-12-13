@@ -16,19 +16,23 @@
 
 @interface CFTCharge : CFTAPIResource
 
-@property (nonatomic) NSString *amount;
+@property (nonatomic) NSDecimalNumber *amount;
 @property (nonatomic) NSString *token;
 @property (nonatomic) NSString *referenceID;
 @property (nonatomic) BOOL isRefunded;
-@property (nonatomic) NSString *amountRefunded;
+@property (nonatomic) NSDecimalNumber *amountRefunded;
 @property (nonatomic) NSDate *created;
-
-- (id)initWithServerResponse:(NSDictionary *)dictionary;
 
 /**
  * Refund a charge and post to the CardFlight servers
- * @param chargeDictionary A dictionary containing amount, description, currency required to refund the charge
+ *
+ * chargeDictionary parameters:
+ *      amount - NSDecimalNumber of the amount to charge
+ *      description - Optional - NSString of charge description
+ *      currency - Optional - NSString of currency code, defaults to USD
  */
--(void) refundCharge:(NSDictionary *)chargeDictionary;
+- (void)refundChargeWithParameters:(NSDictionary *)chargeDictionary
+                           success:(void(^)())success
+                           failure:(void(^)(NSError *error))failure;
 
 @end
