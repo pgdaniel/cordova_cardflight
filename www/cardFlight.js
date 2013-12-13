@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.cardflight.cardFlight", function(require, exports, module) {var argscheck = require('cordova/argscheck'),
+  var argscheck = require('cordova/argscheck'),
     channel = require('cordova/channel'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
@@ -54,4 +54,3 @@ CardFlight.prototype.swipeCard = function(successCallback, errorCallback) {
 
                
 module.exports = new CardFlight();
-});
