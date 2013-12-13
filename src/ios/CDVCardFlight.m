@@ -20,57 +20,71 @@
 #import <Cordova/CDV.h>
 #import "CDVCardFlight.h"
 
-/* @implementation UIDevice (ModelVersion) */
-/*  */
-/* - (NSString*)modelVersion */
-/* { */
-/*     NSString* platform = @"This is a test"; */
-/*  */
-/*     return platform; */
-/* } */
-/*  */
-/* @end */
-
-@interface CDVCardFlight () {}
+@interface CDVCardFlight ()
+@property (nonatomic) CFTReader *reader;
+@property (nonatomic) CFTCard *card;
 @end
 
 @implementation CDVCardFlight
 
-- (void)getSerialNumber:(CDVInvokedUrlCommand*)command
-{
-    NSDictionary* deviceProperties = [self deviceProperties];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:deviceProperties];
 
-    /* Settings.plist
-     * Read the optional Settings.plist file and push these user-defined settings down into the web application.
-     * This can be useful for supplying build-time configuration variables down to the app to change its behavior,
-     * such as specifying Full / Lite version, or localization (English vs German, for instance).
-     */
-    // TODO: turn this into an iOS only plugin
-    NSDictionary* temp = [CDVViewController getBundlePlist:@"Settings"];
-
-    if ([temp respondsToSelector:@selector(JSONString)]) {
-        NSLog(@"Deprecation warning: window.Setting will be removed Aug 2013. Refer to https://issues.apache.org/jira/browse/CB-2433");
-        NSString* js = [NSString stringWithFormat:@"window.Settings = %@;", [temp JSONString]];
-        [self.commandDelegate evalJs:js];
-    }
-
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+- (void)setApiTokens:(CDVInvokedUrlCommand*)command {
+    [[CardFlight sharedInstance] setApiToken:@"4fb831302debeb03128c5c23633a5b42" accountToken:@"c10aa9a847b55d87"];
+     //NSString* myarg = [command.arguments objectAtIndex:0];
+     NSLog(@"SET API");
+     NSLog(@"%@", [[CardFlight sharedInstance] getApiToken]);
+    
+    _reader = [[CFTReader alloc] initAndConnect];
+    [_reader setDelegate:self];
 }
 
-- (NSDictionary*)deviceProperties
+/* - (void)getSerial:(CDVInvokedUrlCommand*)command { */
+/*    // NSString *serialNumber = [[CardFlight sharedInstance] getReaderSerialNumber]; */
+/*     //NSLog(@"GET SERIAL %@", serialNumber); */
+/* } */
+
+
+- (void)swipeCard:(CDVInvokedUrlCommand*)command {
+    [_reader beginSwipeWithMessage:@"Swipe Card"];
+}
+
+#pragma mark - CardFlight Delegate
+
+
+- (void)readerResponse:(CFTCard *)card withError:(NSError *)error {
+    
+    if (error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CardFlight"
+                                                        message:error.localizedDescription
+                                                       delegate:self
+                                              cancelButtonTitle:@"Okay"
+                                              otherButtonTitles:nil];
+        [alert show];
+    } else {
+        _card = card;
+//        [_nameTextField setText:card.name];
+//        [_customView.cardNumber customFieldText:card.encryptedCardNumber];
+//        [_customView.expirationDate customFieldText:[NSString stringWithFormat:@"%i/%i", card.expirationMonth, card.expirationYear]];
+        NSLog(@"IN RESPONSE");
+    }
+}
+
+
+//Response after manual entry
+-(void)manualEntryDictionary:(NSDictionary *)dictionary
 {
-    UIDevice* device = [UIDevice currentDevice];
-    NSMutableDictionary* devProps = [NSMutableDictionary dictionaryWithCapacity:4];
+    //nameTextField.text = [dictionary objectForKey:@"name"];
+    //numberTextField.text = [dictionary objectForKey:@"number"];
+    //expDateTextField.text = [NSString stringWithFormat:@"%@/%@", [dictionary objectForKey:@"expiration month"], [dictionary objectForKey:@"expiration year"]];
+}
 
-    [devProps setObject:@"Paul" forKey:@"model"];
-    [devProps setObject:@"iOS" forKey:@"platform"];
-    [devProps setObject:@"theVersion" forKey:@"version"];
-    [devProps setObject:[device uniqueAppInstanceIdentifier] forKey:@"uuid"];
-    [devProps setObject:[[self class] cordovaVersion] forKey:@"cordova"];
-
-    NSDictionary* devReturn = [NSDictionary dictionaryWithDictionary:devProps];
-    return devReturn;
+//Server response after submitting data
+-(void)serverResponse:(NSData *)response andError:(NSError *)error
+{
+    //Manage the CardFlight API server response
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableContainers error:&error];
+    
+    NSLog(@"Server Response: %@", jsonDict);
 }
 
 + (NSString*)cordovaVersion

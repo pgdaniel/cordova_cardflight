@@ -1,67 +1,41 @@
-//
-//  CardFlight.h
-//  CardFlight
-//
-//  Copyright (c) 2013 CardFlight. All rights reserved.
-//
-
+/*
+ *****************************************************************
+ * CardFlight.h
+ *
+ * A CardFlight singleton is created to maintain session-wide
+ * settings and information.
+ *
+ * All additional functionality is supplied by the individual class
+ * related to the function that you want to perform. Only the
+ * classes required need to be included in a file.
+ *
+ * Copyright (c) 2013 CardFlight Inc. All rights reserved.
+ *****************************************************************
+ */
 #import <Foundation/Foundation.h>
-
-// @protocol CardFlightDelegate;
 
 @interface CardFlight : NSObject
 
+/**
+ * Accessor for the CardFlight singleton
+ */
++ (CardFlight *)sharedInstance;
 
-// +(CardFlight *)sharedInstance;
-// 
-// // Returns the currect API Token
-// -(NSString *) getApiToken;
-// 
-// // Returns the currect Account Token
-// -(NSString *) getAccountToken;
-// 
-// // Initializes CardFlight API with API Token, Account Token and sets the delegate
-// -(void)setApiToken:(NSString *)cardFlightApiToken accountToken:(NSString *)cardFlightAccountToken andDelegate:(id<CardFlightDelegate>)delegate;
-// 
-// // Start CardFlight swipe process
-// -(void)beginSwipeWithDefaultDialog:(BOOL)dialog;
-// 
-// // Present CardFlight keyed entry view
-// -(void)startKeyedEntry;
-// 
-// /**
-//  * Process a payment using a dictionary as parameters
-//  * @param transaction A dictionary containing amount, description, currency
-//  */
-// -(void)processPaymentWithTransaction:(NSDictionary *)transaction;
-// -(NSString *)getReaderSerialNumber;
-// 
-// 
-// /**
-//  * Process a refund using a dictionary as parameters
-//  * @param transaction A dictionary containing token and amount, 
-//  */
-// -(void)processRefundWithTransaction:(NSDictionary *)transaction;
-// 
-// // Set backgound color and navigation bar tint color in keyed entry view
-// -(void)setCardFlightViewControllerBackgroundColor:(id)backgroundColor andNavigationBarTintColor:(id)tintColor;
-// 
-// // Stop CardFlight and release all it's resources
-// -(void)stop;
-// 
-// @end
-// 
-// 
-// // Required Delegate Methods to notify the transaction status
-// @protocol CardFlightDelegate <NSObject>
-// 
-// // Returns data after swipe
-// -(void)swipeResponse:(NSData *)data andError:(NSError *)error;
-// 
-// // Returns data after manual entry
-// -(void)manualEntryDictionary:(NSDictionary *)dictionary;
-// 
-// // Server response
-// -(void)serverResponse:(NSData *)response andError:(NSError *)error;
+/**
+ * Convenience method to return the current API token
+ */
+- (NSString *)getApiToken;
+
+/**
+ * Convenience method to return the current Account token
+ */
+- (NSString *)getAccountToken;
+
+/**
+ * Sets the API account token for the entire session. This only
+ * needs to be called once, most like in applicationDidFinishLaunching
+ */
+- (void)setApiToken:(NSString *)cardFlightApiToken
+       accountToken:(NSString *)cardFlightAccountToken;
 
 @end

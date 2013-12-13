@@ -26,6 +26,9 @@
 
         <header-file src="src/ios/CDVCardFlight.h" />
         <header-file src="src/ios/CardFlight.h" />
+        <header-file src="src/ios/CFTReader.h" />
+        <header-file src="src/ios/CFTCard.h" />
+        <header-file src="src/ios/CFTAPIResource.h" />
         <source-file src="src/ios/CDVCardFlight.m" />
         <framework src="AVFoundation.framework" />
         <framework src="AudioToolbox.framework" />
