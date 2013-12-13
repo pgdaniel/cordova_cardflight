@@ -30,18 +30,14 @@
 
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command {
     [[CardFlight sharedInstance] setApiToken:@"4fb831302debeb03128c5c23633a5b42" accountToken:@"c10aa9a847b55d87"];
-     //NSString* myarg = [command.arguments objectAtIndex:0];
+     NSString* apiToken = [command.arguments objectAtIndex:0];
      NSLog(@"SET API");
      NSLog(@"%@", [[CardFlight sharedInstance] getApiToken]);
+     NSLog("API TOKEN %@\n", apiToken");
     
     _reader = [[CFTReader alloc] initAndConnect];
     [_reader setDelegate:self];
 }
-
-/* - (void)getSerial:(CDVInvokedUrlCommand*)command { */
-/*    // NSString *serialNumber = [[CardFlight sharedInstance] getReaderSerialNumber]; */
-/*     //NSLog(@"GET SERIAL %@", serialNumber); */
-/* } */
 
 
 - (void)swipeCard:(CDVInvokedUrlCommand*)command {
