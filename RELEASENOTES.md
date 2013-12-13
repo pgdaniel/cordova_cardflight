@@ -20,6 +20,5 @@
 -->
 # Release Notes
 
-### 0.2.1 (Sept 5, 2013)
-* removed extraneous print statement
-* [CB-4432] copyright notice change
+### 0.0.0 (DEC 12, 2013)
+* TBD
