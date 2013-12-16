@@ -27,13 +27,12 @@
 
 @implementation CDVCardFlight
 
-
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command {
-    [[CardFlight sharedInstance] setApiToken:@"4fb831302debeb03128c5c23633a5b42" accountToken:@"c10aa9a847b55d87"];
-     NSString* apiToken = [command.arguments objectAtIndex:0];
+    [[CardFlight sharedInstance] setApiToken:@"1234" accountToken:@"5678"];
+     /* NSString* apiToken = [command.arguments objectAtIndex:0]; */
      NSLog(@"SET API");
      NSLog(@"%@", [[CardFlight sharedInstance] getApiToken]);
-     NSLog("API TOKEN %@\n", apiToken");
+     /* NSLog(@"API TOKEN %@\n", apiToken); */
     
     _reader = [[CFTReader alloc] initAndConnect];
     [_reader setDelegate:self];
@@ -58,10 +57,13 @@
         [alert show];
     } else {
         _card = card;
-//        [_nameTextField setText:card.name];
-//        [_customView.cardNumber customFieldText:card.encryptedCardNumber];
-//        [_customView.expirationDate customFieldText:[NSString stringWithFormat:@"%i/%i", card.expirationMonth, card.expirationYear]];
         NSLog(@"IN RESPONSE %@", _card.name);
+        [_card tokenizeCardWithSuccess:^{
+            NSLog(@"Card Token:  %@\n", _card.cardToken);
+                       }
+                       failure:^(NSError *error){
+                          NSLog(@"ERROR");
+                       }];
     }
 }
 
