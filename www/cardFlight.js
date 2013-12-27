@@ -4,9 +4,9 @@
     exec = require('cordova/exec'),
     cordova = require('cordova');
 
-channel.createSticky('onCordovaInfoReady');
+channel.createSticky('onCordovaCardFlightReady');
 // Tell cordova channel to wait on the CordovaInfoReady event
-channel.waitForInitialization('onCordovaInfoReady');
+channel.waitForInitialization('onCordovaCardFlightReady');
 
 function CardFlight() {
     this.available = false;
@@ -17,21 +17,22 @@ function CardFlight() {
     var _this = this;
 
     channel.onCordovaReady.subscribe(function() {
-        _this.setApiTokens(function(config) {
-            var buildLabel = cordova.version;
-            _this.available = true;
-            _this.platform = info.platform;
-            _this.cordova = buildLabel;
-            channel.onCordovaInfoReady.fire();
-        },function(e) {
-            _this.available = false;
-            utils.alert("[ERROR] Error initializing Cordova: " + e);
-        });
+        // _this.setApiTokens() {
+        //     var buildLabel = cordova.version;
+        //     _this.available = true;
+        //     _this.cordova = buildLabel;
+        //     channel.onCordovaCardFlightReady.fire();
+        // },function(e) {
+        //     _this.available = false;
+        //     utils.alert("[ERROR] Error initializing Cordova: " + e);
+        // };
     });
 }
 
-CardFlight.prototype.setApiTokens = function(config) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [config.apiToken, config.accountToken]);
+CardFlight.prototype.setApiTokens = function() {
+    exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", []);
+    var successCallback = function(){};
+    var errorCallback = function(){};
 };
 
 CardFlight.prototype.swipeCard = function(successCallback, errorCallback) {

@@ -62,7 +62,7 @@
             NSLog(@"Card Token:  %@\n", _card.cardToken);
                        }
                        failure:^(NSError *error){
-                          NSLog(@"ERROR");
+                 NSLog(@"ERROR:", error.code);
                        }];
     }
 }
