@@ -23,46 +23,69 @@
 @interface CDVCardFlight ()
 @property (nonatomic) CFTReader *reader;
 @property (nonatomic) CFTCard *card;
+@property (nonatomic) CDVPluginResult *readerPluginResult;
 @end
 
 @implementation CDVCardFlight
 
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command {
-    [[CardFlight sharedInstance] setApiToken:@"1234" accountToken:@"5678"];
-     /* NSString* apiToken = [command.arguments objectAtIndex:0]; */
-     NSLog(@"SET API");
-     NSLog(@"%@", [[CardFlight sharedInstance] getApiToken]);
-     /* NSLog(@"API TOKEN %@\n", apiToken); */
+    NSString* apiToken = [command.arguments objectAtIndex:0];
+    NSString* accountToken = [command.arguments objectAtIndex:1];
+    CDVPluginResult* pluginResult = nil;
+
+    [[CardFlight sharedInstance] setApiToken:apiToken accountToken:accountToken];
+
+    NSLog(@"API TOKEN: %@ ACCOUNT TOKEN: %@\n", [[CardFlight sharedInstance] getApiToken], [[CardFlight sharedInstance] getAccountToken]);
     
     _reader = [[CFTReader alloc] initAndConnect];
-    [_reader setDelegate:self];
+    if (_reader) {
+      [_reader setDelegate:self];
+      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    } else {
+      pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
 - (void)swipeCard:(CDVInvokedUrlCommand*)command {
     [_reader beginSwipeWithMessage:@"Swipe Card"];
+    
+    // Here wait for the cardResponse to complete via block
+    
+    __weak CDVCardFlight *weakSelf = self;
+    readerDone = ^{
+        [weakSelf.commandDelegate sendPluginResult:weakSelf.readerPluginResult
+                                        callbackId:command.callbackId];
+        NSLog(@"READER DONE");
+        NSLog(@"READER CALLBACKID %@\n", command.callbackId);
+        NSLog(@"READER RESULT %@\n", weakSelf.readerPluginResult);
+    };
+  weakSelf = nil;
 }
 
-#pragma mark - CardFlight Delegate
-
-
-- (void)readerResponse:(CFTCard *)card withError:(NSError *)error {
-    
+- (void)readerCardResponse:(CFTCard *)card withError:(NSError *)error {
     if (error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CardFlight"
-                                                        message:error.localizedDescription
-                                                       delegate:self
-                                              cancelButtonTitle:@"Okay"
-                                              otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CardFlight" message:error.localizedDescription delegate:self 
+                                              cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     } else {
         _card = card;
         NSLog(@"IN RESPONSE %@", _card.name);
         [_card tokenizeCardWithSuccess:^{
             NSLog(@"Card Token:  %@\n", _card.cardToken);
-                       }
+            _readerPluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                    messageAsDictionary:@{@"cardToken": _card.cardToken}];
+              // Callback to the block in the swipeCard method
+              readerDone();
+         }
                        failure:^(NSError *error){
-                 NSLog(@"ERROR:", error.code);
+                           NSLog(@"ERROR CODE: %i", error.code);
+                           _readerPluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                                   messageAsString:error.localizedDescription];
+                          // Callback to the block in the swipeCard method
+                          readerDone();
                        }];
     }
 }
@@ -71,23 +94,21 @@
 //Response after manual entry
 -(void)manualEntryDictionary:(NSDictionary *)dictionary
 {
-    //nameTextField.text = [dictionary objectForKey:@"name"];
-    //numberTextField.text = [dictionary objectForKey:@"number"];
-    //expDateTextField.text = [NSString stringWithFormat:@"%@/%@", [dictionary objectForKey:@"expiration month"], [dictionary objectForKey:@"expiration year"]];
 }
+
 
 //Server response after submitting data
 -(void)serverResponse:(NSData *)response andError:(NSError *)error
 {
     //Manage the CardFlight API server response
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableContainers error:&error];
-    
     NSLog(@"Server Response: %@", jsonDict);
 }
+
 
 + (NSString*)cordovaVersion
 {
     return CDV_VERSION;
 }
-
 @end
+

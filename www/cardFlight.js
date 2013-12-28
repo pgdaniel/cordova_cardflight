@@ -1,8 +1,8 @@
-  var argscheck = require('cordova/argscheck'),
-    channel = require('cordova/channel'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec'),
-    cordova = require('cordova');
+var argscheck = require('cordova/argscheck'),
+  channel = require('cordova/channel'),
+  utils = require('cordova/utils'),
+  exec = require('cordova/exec'),
+  cordova = require('cordova');
 
 channel.createSticky('onCordovaCardFlightReady');
 // Tell cordova channel to wait on the CordovaInfoReady event
@@ -17,27 +17,27 @@ function CardFlight() {
     var _this = this;
 
     channel.onCordovaReady.subscribe(function() {
-        // _this.setApiTokens() {
-        //     var buildLabel = cordova.version;
-        //     _this.available = true;
-        //     _this.cordova = buildLabel;
-        //     channel.onCordovaCardFlightReady.fire();
-        // },function(e) {
-        //     _this.available = false;
-        //     utils.alert("[ERROR] Error initializing Cordova: " + e);
-        // };
+      // ADD INITIALIZATION HERE
     });
 }
 
-CardFlight.prototype.setApiTokens = function() {
-    exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", []);
-    var successCallback = function(){};
-    var errorCallback = function(){};
+CardFlight.prototype.configure = function(options) {
+  var successCallback = function() {
+    console.log("SUCCESSFULLY SET TOKENS");
+  };
+  var errorCallback = function() {
+    console.log("ERROR SETTING TOKENS");
+}
+  this.setApiTokens(successCallback, errorCallback, options);
+}
+
+
+CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, options) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
 };
 
-CardFlight.prototype.swipeCard = function(successCallback, errorCallback) {
+CardFlight.prototype.beginSwipe = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", []);
 };
-               
                
 module.exports = new CardFlight();

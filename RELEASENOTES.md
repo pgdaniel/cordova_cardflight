@@ -20,5 +20,5 @@
 -->
 # Release Notes
 
-### 0.0.0 (DEC 12, 2013)
-* TBD
+0.1.0 (DEC 27, 2013)
+* Initial Alpha release of the Cordova CardFlight Plugin  

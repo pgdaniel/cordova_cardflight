@@ -34,6 +34,9 @@
         <framework src="AVFoundation.framework" />
         <framework src="AudioToolbox.framework" />
         <framework src="MediaPlayer.framework" />
+        <framework src="MessageUI.framework" />
+        <framework src="ExternalAccessory.framework" />
+        <framework src="CoreGraphics.framework" />
         <source-file src="src/ios/libCardFlightLibrary.a" framework="true" />
     </platform>
 </plugin>
