@@ -22,3 +22,5 @@
 
 0.1.0 (DEC 27, 2013)
 * Initial Alpha release of the Cordova CardFlight Plugin  
+* Added cardFlight 1.1.1 library release
+* card object only contains the tokenized string for now.  Further implemetation to follow...
