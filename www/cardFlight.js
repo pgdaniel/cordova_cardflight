@@ -5,8 +5,6 @@ var argscheck = require('cordova/argscheck'),
   cordova = require('cordova');
 
 channel.createSticky('onCordovaCardFlightReady');
-// Tell cordova channel to wait on the CordovaInfoReady event
-channel.waitForInitialization('onCordovaCardFlightReady');
 
 function CardFlight() {
     this.available = false;
