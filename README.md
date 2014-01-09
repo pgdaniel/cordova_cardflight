@@ -26,7 +26,7 @@ cardFlight.beginSwipe(func(<card>), func(<error>)[, options])
 
 ```javascript
 var success = function (card) {
-  console.log("swipe successful", card.token);
+  console.log("swipe successful", card.cardToken);
 }
 
 var error = function (error) {
@@ -45,7 +45,7 @@ cardFlight.beginSwipe(success, error, {
 
 ```javascript
 {
-  token: "<token on merchant>"
+  cardToken: "<token on merchant>"
 }
 ```
 
