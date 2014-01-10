@@ -110,6 +110,7 @@
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                      messageAsString:@"READER_ATTACHED"];
+    [pluginResult setKeepCallbackAsBool];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }
 
@@ -118,6 +119,7 @@
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                      messageAsString:@"READER_CONNECTING"];
+    [pluginResult setKeepCallbackAsBool];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 } 
 
@@ -132,6 +134,8 @@
         _readerPluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                 messageAsString:error.localizedDescription];
     }
+    [pluginResult setKeepCallbackAsBool];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
@@ -139,6 +143,7 @@
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                      messageAsString:@"READER_DISCONNECTED"];
+    [pluginResult setKeepCallbackAsBool];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
