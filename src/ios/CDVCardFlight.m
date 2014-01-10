@@ -106,6 +106,43 @@
 }
 
 
+- (void)readerIsAttached {
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                     messageAsString:@"READER_ATTACHED"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  }
+
+
+- (void)readerIsConnecting {
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                     messageAsString:@"READER_CONNECTING"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+} 
+
+
+- (void)readerIsConnected:(BOOL)isConnected withError:(NSError *)error {
+    CDVPluginResult* pluginResult = nil;
+    if (isConnected) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                 messageAsString:@"READER_CONNECTED"];
+    } else {
+        NSLog(@"ERROR CODE: %i", error.code);
+        _readerPluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                messageAsString:error.localizedDescription];
+    }
+}
+
+
+- (void)readerIsDisconnected {
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                     messageAsString:@"READER_DISCONNECTED"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+
 + (NSString*)cordovaVersion
 {
     return CDV_VERSION;
