@@ -15,7 +15,7 @@ function CardFlight() {
     var _this = this;
 
     channel.onCordovaReady.subscribe(function() {
-      // ADD INITIALIZATION HERE
+      _this.initialize();
     });
 }
 
@@ -29,6 +29,20 @@ CardFlight.prototype.configure = function(options) {
   this.setApiTokens(successCallback, errorCallback, options);
 }
 
+CardFlight.prototype.initialize = function() {
+
+  var successCallback = function() {
+    console.log("startOnReaderAttached Successful");
+  };
+  var errorCallback = function() {
+    console.log("startOnReaderAttached failure");
+  }
+  this.startOnReaderAttached(successCallback, errorCallback);
+  this.startOnReaderConnected(successCallback, errorCallback);
+  this.startOnReaderDisconnected(successCallback, errorCallback);
+  this.startOnReaderConnecting(successCallback, errorCallback);
+}
+
 
 CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, options) {
     exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
@@ -36,6 +50,22 @@ CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, opt
 
 CardFlight.prototype.beginSwipe = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", []);
+};
+
+CardFlight.prototype.startOnReaderAttached = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderAttached", []);
+};
+
+CardFlight.prototype.startOnReaderConnected = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnected", []);
+};
+
+CardFlight.prototype.startOnReaderDisconnected = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderDisconnected", []);
+};
+
+CardFlight.prototype.startOnReaderConnecting = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnecting", []);
 };
                
 module.exports = new CardFlight();
