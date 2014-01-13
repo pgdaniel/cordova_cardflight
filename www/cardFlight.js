@@ -5,6 +5,7 @@ var argscheck = require('cordova/argscheck'),
   cordova = require('cordova');
 
 channel.createSticky('onCordovaCardFlightReady');
+channel.waitForInitialization('onCordovaCardFlightReady');
 
 function CardFlight() {
     this.available = false;
@@ -41,6 +42,8 @@ CardFlight.prototype.initialize = function() {
   this.startOnReaderConnected(successCallback, errorCallback);
   this.startOnReaderDisconnected(successCallback, errorCallback);
   this.startOnReaderConnecting(successCallback, errorCallback);
+
+  channel.onCordovaCardFlightReady.fire();
 }
 
 
