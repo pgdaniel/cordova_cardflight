@@ -183,6 +183,14 @@
     NSLog(@"called onReaderAttached");
   }
 
+- (void)startOnReaderConnecting:(CDVInvokedUrlCommand*)command {
+
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    NSLog(@"called onReaderAttached");
+  }
 
 + (NSString*)cordovaVersion
 {
