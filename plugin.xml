@@ -30,6 +30,12 @@
         <header-file src="src/ios/CFTCard.h" />
         <header-file src="src/ios/CFTCharge.h" />
         <header-file src="src/ios/CFTAPIResource.h" />
+        <header-file src="src/ios/CFTAPIResource.h" />
+        <header-file src="src/ios/CFTAttacheReader.h" />
+        <header-file src="src/ios/CFTAccount.h" />
+        <header-file src="src/ios/CFTBaseReader.h" />
+        <header-file src="src/ios/CFTPaymentView.h" />
+        <header-file src="src/ios/CFTSessionManager.h" />
         <source-file src="src/ios/CDVCardFlight.m" />
         <framework src="AVFoundation.framework" />
         <framework src="AudioToolbox.framework" />
@@ -38,5 +44,6 @@
         <framework src="ExternalAccessory.framework" />
         <framework src="CoreGraphics.framework" />
         <source-file src="src/ios/libCardFlightLibrary.a" framework="true" />
+        <source-file src="src/ios/libCardFlightAttacheLibrary.a" framework="true" />
     </platform>
 </plugin>

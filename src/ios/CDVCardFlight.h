@@ -1,10 +1,11 @@
 #import <Cordova/CDVPlugin.h>
 #import "CardFlight.h"
+#import "CFTSessionManager.h"
 #import "CFTReader.h"
 #import "CFTCard.h"
 #import "CFTCharge.h"
 
-@interface CDVCardFlight : CDVPlugin <readerDelegate>
+@interface CDVCardFlight : CDVPlugin <CFTReaderDelegate>
 {
     void (^readerDone)(void);
 }
