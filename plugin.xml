@@ -30,7 +30,6 @@
         <header-file src="src/ios/CFTCard.h" />
         <header-file src="src/ios/CFTCharge.h" />
         <header-file src="src/ios/CFTAPIResource.h" />
-        <header-file src="src/ios/CFTAPIResource.h" />
         <header-file src="src/ios/CFTAttacheReader.h" />
         <header-file src="src/ios/CFTAccount.h" />
         <header-file src="src/ios/CFTBaseReader.h" />
