@@ -43,5 +43,6 @@
         <framework src="ExternalAccessory.framework" />
         <framework src="CoreGraphics.framework" />
         <source-file src="src/ios/libCardFlightLibrary.a" framework="true" />
+        <source-file src="src/ios/libCardFlightAttacheLibrary.a" framework="true" />
     </platform>
 </plugin>
