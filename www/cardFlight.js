@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.cardflight.cardFlight", function(require, exports, module) { 
+
   var argscheck = require('cordova/argscheck'),
     channel = require('cordova/channel'),
     utils = require('cordova/utils'),
@@ -67,5 +67,3 @@ cordova.define("org.apache.cordova.cardflight.cardFlight", function(require, exp
   };
                  
   module.exports = new CardFlight();
-
-});
