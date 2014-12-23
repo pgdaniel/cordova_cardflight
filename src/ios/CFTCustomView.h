@@ -23,11 +23,56 @@
 @class CFTCard;
 @class CFTCustomEntryTextField;
 
+@protocol customEntryDelegate <NSObject>
+
+@optional
+
+/**
+ * Optional protocol method that gets called when the private
+ * text field call textField:shouldChangeCharactersInRange:replacementString:
+ */
+- (BOOL)customTextField:(NSInteger)textFieldTag shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
+
+/**
+ * Optional protocol method that gets called when the private
+ * text field call textFieldDidBeginEditing
+ */
+- (void)customTextFieldDidBeginEditing:(NSInteger)textFieldTag;
+
+/**
+ * Optional protocol method that gets called when the private
+ * text field call textFieldDidEndEditing
+ */
+- (void)customTextFieldDidEndEditing:(NSInteger)textFieldTag;
+
+/**
+ * Optional protocol method that gets called when the private
+ * text field call textFieldShouldBeginEditing
+ */
+- (BOOL)customTextFieldShouldBeginEditing:(NSInteger)textFieldTag;
+
+/**
+ * Optional protocol method that gets called when the private
+ * text field call textFieldShouldClear
+ */
+- (BOOL)customTextFieldShouldClear:(NSInteger)textFieldTag;
+
+/**
+ * Optional protocol method that gets called when the private
+ * text fields call textFieldShouldReturn
+ */
+- (BOOL)customTextFieldShouldReturn:(NSInteger)textFieldTag;
+
+@end
+
+__attribute__((deprecated))
 @interface CFTCustomView : UIView
 
+@property (nonatomic, weak) id<customEntryDelegate> delegate;
 @property (nonatomic) CFTCustomEntryTextField *cardNumber;
 @property (nonatomic) CFTCustomEntryTextField *expirationDate;
 @property (nonatomic) CFTCustomEntryTextField *cvvNumber;
+@property (nonatomic) CFTCustomEntryTextField *cardName;
 
 /**
  * Creates the custom view without a CVV field

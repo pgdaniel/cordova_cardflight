@@ -39,9 +39,9 @@
     NSString* accountToken = [command.arguments objectAtIndex:1];
     CDVPluginResult* pluginResult = nil;
 
-    [[CardFlight sharedInstance] setApiToken:apiToken accountToken:accountToken];
+    [[CFTSessionManager sharedInstance] setApiToken:apiToken accountToken:accountToken];
 
-    NSLog(@"API TOKEN: %@ ACCOUNT TOKEN: %@\n", [[CardFlight sharedInstance] getApiToken], [[CardFlight sharedInstance] getAccountToken]);
+    NSLog(@"API TOKEN: %@ ACCOUNT TOKEN: %@\n", [[CFTSessionManager sharedInstance] getApiToken], [[CFTSessionManager sharedInstance] getAccountToken]);
     
     _reader = [[CFTReader alloc] initAndConnect];
     if (_reader) {
@@ -128,6 +128,7 @@
   // fire corresponding callback id for onReaderAttached
   if (self.onReaderDisconnectedCallbackId) {
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [result setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
   }
 }
@@ -137,7 +138,8 @@
   NSLog(@"CallbackId %@", self.onReaderConnectingCallbackId);
   if (self.onReaderConnectingCallbackId) {
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
+    [result setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:result callbackId:self.onReaderConnectingCallbackId];
   }
 } 
 
@@ -146,8 +148,7 @@
     NSLog(@"called readerIsConnected");
     NSLog(@"CallbackId %@", self.onReaderConnectedCallbackId);
     CDVPluginResult* result;
-
-    if (self.onReaderConnectingCallbackId) {
+    if (self.onReaderConnectedCallbackId) {
       if (isConnected) {
         NSLog(@"READER IS CONNECTED");
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -155,7 +156,8 @@
           NSLog(@"ERROR CODE: %i", error.code);
           result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
       }
-      [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
+      [result setKeepCallbackAsBool:YES];
+      [self.commandDelegate sendPluginResult:result callbackId:self.onReaderConnectedCallbackId];
     }
 }
 
